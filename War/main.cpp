@@ -1,96 +1,44 @@
+#include "card.hpp"
+#include "deck.hpp"
+#include "user.hpp"
+
 #include <iostream>
-#include <vector>
-
-enum suit
-{
-	C,
-	D,
-	H,
-	S,
-};
-
-enum rank
-{
-	TWO,
-	THREE,
-	FOUR,
-	FIVE,
-	SIX,
-	SEVEN,
-	EIGHT,
-	NINE,
-	TEN,
-	J,
-	Q,
-	K,
-	A,
-};
-
-struct Card
-{
-	suit S;
-	rank R;
-
-	Card()
-	{
-		S = suit.C;
-		R = rank.TWO;
-	}
-	Card(suit newSuit,rank newRank)
-	{
-		S = newSuit;
-		R = newRank;
-	}
-	Card operator=(const Card* toCopy)
-	{
-		S = toCopy->S;
-		R = toCopy->R;
-	}
-	friend std::ostream& operator<<(std::ostream& o, Card showCard)
-	{
-		if(S == suit.C)
-			o << "C\n";
-		o << "end";
-		return o;
-	}
-};
-
-struct Deck
-{
-	std::vector<Card> deck = std::vector<Card>(52);
-
-	Deck()
-	{
-		size_t counter = 0;
-	
-		for (size_t i = 0; i < 13; ++i)
-		{
-			for (size_t j = 0; j < 4; ++j)
-			{
-				deck[counter] = new Card(suit(j),rank(i));
-				++counter;
-			}
-		}
-	}
-};
 
 int main()
 {
-	Deck newDeck();
+	Deck deck;
+	User p1;
+	User p2;
 
+	deck.fill();
+	deck.shuffle();
 
+	p1.hand = deck.cut();
+	p2.hand = deck;
 
-	/*
-	std::vector<Card> deck (52);
-	size_t counter = 0;
-	
-	for (size_t i = 0; i < 13; ++i)
+	Deck pot;
+	Card p1Card;
+	Card p2Card;
+	while(true)
 	{
-		for (size_t j = 0; j < 4; ++j)
+		p1Card = p1.playCard();
+		p2Card = p2.playCard();
+		pot = pot + p1Card;
+		pot = pot + p1Card;
+
+		if(p1Card > p2Card)
 		{
-			deck[counter] = new Card(suit(j),rank(i));
-			++counter;
+			std::cout << p1Card << " || " << p2Card << "  P1" << std::endl;
+			p1.give(pot);
 		}
-	}
-	*/
+		else if(p1Card < p2Card)
+		{
+			std::cout << p1Card << " || " << p2Card << "  P2" << std::endl;
+			p2.give(pot);
+		}
+		else
+		{
+			std::cout << p1Card << " || " << p2Card << "  TIE" << std::endl;
+		}
+	}	
 }
