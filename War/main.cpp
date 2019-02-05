@@ -21,10 +21,10 @@ int main()
 	Card p2Card;
 	while(true)
 	{
-		p1Card = p1.playCard();
-		p2Card = p2.playCard();
-		pot = pot + p1Card;
-		pot = pot + p1Card;
+		// p1Card = p1.playCard();
+		// p2Card = p2.playCard();
+		// pot = pot + p1Card;
+		// pot = pot + p1Card;
 
 		if(p1Card > p2Card)
 		{
