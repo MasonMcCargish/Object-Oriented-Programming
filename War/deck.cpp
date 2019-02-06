@@ -63,27 +63,19 @@ Deck Deck::clear()
 	return newDeck;
 }
 
+void Deck::addCard(Card& newCard)
+{
+	deck.push_back(newCard);
+}
+
+void Deck::addDeck(Deck& newDeck)
+{
+	for(Card c: newDeck.deck)
+		addCard(c);
+}
+
 Deck& Deck::operator=(const Deck& toCopy)
 {
 	this->deck = toCopy.deck;
 	return *this;
 }
-
-Deck& Deck::operator+(const Deck& toAdd)
-{
-	Deck combDeck;
-	combDeck.deck = deck;
-	combDeck.deck.insert(combDeck.deck.end(), toAdd.deck.begin(), toAdd.deck.end());
-
-	return combDeck;
-}
-
-Deck& Deck::operator+(const Card& toAdd)
-{
-	Deck combDeck;
-	combDeck.deck = deck;
-	combDeck.deck.push_back(toAdd);
-
-	return combDeck;
-}
-

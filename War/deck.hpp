@@ -13,9 +13,9 @@ public:
 	bool empty();
 	Deck cut();
 	Deck clear();
+	void addCard(Card &);
+	void addDeck(Deck &);
 	Deck& operator=(const Deck&);
-	Deck& operator+(const Deck&);
-	Deck& operator+(const Card&);
 
 	std::vector<Card> deck;
 };
