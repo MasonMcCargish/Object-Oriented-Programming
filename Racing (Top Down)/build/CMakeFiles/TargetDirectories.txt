@@ -1,3 +1,0 @@
-/home/mason/games-master/07 Racing (Top Down)/build/CMakeFiles/rebuild_cache.dir
-/home/mason/games-master/07 Racing (Top Down)/build/CMakeFiles/edit_cache.dir
-/home/mason/games-master/07 Racing (Top Down)/build/CMakeFiles/race.dir
