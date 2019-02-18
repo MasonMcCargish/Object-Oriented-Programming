@@ -2,7 +2,7 @@
 
 int Card::getValue() const
 {
-	switch(rank)
+	switch(getRank())
 	{
 		case TWO: return 2;
 		case THREE: return 3;
@@ -53,7 +53,7 @@ std::ostream& operator<<(std::ostream& o, const Suit& suit)
 
 std::ostream& operator<<(std::ostream& o, const Card& card)
 {
-	return o << card.rank << card.suit;
+	return o << card.getRank() << card.getSuit();
 }
 
 bool operator<(const Card& C1, const Card& C2)

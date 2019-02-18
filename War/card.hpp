@@ -30,10 +30,23 @@ enum Rank
 class Card
 {
 public:
+	Card()
+	{}
+
+	Card(Rank r, Suit s)
+	: data(static_cast<unsigned>(s) << 4 | static_cast<unsigned>(r))
+	{}
+
+	Rank getRank() const {return static_cast<Rank>(data & 0b1111);}
+
+	Suit getSuit() const {return static_cast<Suit>(data >> 4);}
+
 	int getValue() const;
 
-	Rank rank;
-	Suit suit;
+private:
+	int data;
+	// Rank rank;
+	// Suit suit;
 };
 
 std::ostream& operator<<(std::ostream&, const Rank &);

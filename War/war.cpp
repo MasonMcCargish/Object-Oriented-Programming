@@ -14,6 +14,9 @@ void War::startGame()
 	deck.fill();
 	deck.shuffle();
 
+	for (Card c: deck.deck)
+		std::cout << c << " ";
+
 	p1.hand = deck.cut();
 	p2.hand = deck;
 
