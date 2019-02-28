@@ -1,4 +1,17 @@
 #include "card.hpp"
+#include <cassert>
+
+Rank Card::getRank() const
+{
+	assert(!isJoker());
+	return static_cast<Rank>(data & 0b1111);
+}
+
+Suit Card::getSuit() const
+{
+	assert(!isJoker());
+	return static_cast<Suit>(data >> 4);
+}
 
 int Card::getValue() const
 {
@@ -18,6 +31,17 @@ int Card::getValue() const
 		case KING: return 13;
 		case ACE: return 14;
 	}
+}
+
+Color Card::getColor() const
+{
+	assert(isJoker());
+	return static_cast<Color>(data & 0b1111);
+}
+
+bool Card::isJoker() const
+{
+	return((data & 0b1000000) == 0b1000000);
 }
 
 std::ostream& operator<<(std::ostream& o, const Rank& rank)
@@ -51,9 +75,21 @@ std::ostream& operator<<(std::ostream& o, const Suit& suit)
 	}
 }
 
+std::ostream& operator<<(std::ostream& o, const Color& c)
+{
+	switch(c)
+	{
+		case RED: return o << "R";
+		case BLACK: return o << "B";
+	}
+}
+
 std::ostream& operator<<(std::ostream& o, const Card& card)
 {
-	return o << card.getRank() << card.getSuit();
+	if(card.isJoker())
+		return o << card.getColor() << "J";
+	else
+		return o << card.getRank() << card.getSuit();
 }
 
 bool operator<(const Card& C1, const Card& C2)
