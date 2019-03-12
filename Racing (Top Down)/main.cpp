@@ -28,18 +28,13 @@ main()
    const int N = 5;
    Car car[N];
    for (int i = 0; i < N; i++) {
-      car[i].x = 300 + i * 50;
-      car[i].y = 1700 + i * 80;
-      car[i].speed = 7 + i;
+      car[i].setPos(300 + i * 50, 1700 + i * 80);
+      car[i].setSpeed(7 + i);
    }
-   
-   // defines the properties of the car
-   float speed = 0, angle = 0;
-   float maxSpeed = 12.0;
-   float acc = 0.2, dec = 0.3;
-   float turnSpeed = 0.08;
 
    int offsetX = 0, offsetY = 0;
+
+   bool Up = 0, Right = 0, Down = 0, Left = 0;
 
    //MAIN GAME LOOP
    while (app.isOpen()) {
@@ -50,50 +45,26 @@ main()
       }
 
       // detects keyboard inputs
-      bool Up = 0, Right = 0, Down = 0, Left = 0;
-      if (Keyboard::isKeyPressed(Keyboard::Up))
-         Up = 1;
-      if (Keyboard::isKeyPressed(Keyboard::Right))
-         Right = 1;
-      if (Keyboard::isKeyPressed(Keyboard::Down))
-         Down = 1;
-      if (Keyboard::isKeyPressed(Keyboard::Left))
-         Left = 1;
+      Up = Keyboard::isKeyPressed(Keyboard::Up);
+      Right = Keyboard::isKeyPressed(Keyboard::Right);
+      Down = Keyboard::isKeyPressed(Keyboard::Down);
+      Left = Keyboard::isKeyPressed(Keyboard::Left);
 
       // car movement
-      if (Up && speed < maxSpeed) {
-         if (speed < 0)
-            speed += dec;
-         else
-            speed += acc;
-      }
+      if (Up)
+         car[0].accellerate();
 
-      if (Down && speed > -maxSpeed) {
-         if (speed > 0)
-            speed -= dec;
-         else
-            speed -= acc;
-      }
-
-      // defines coasting
-      if (!Up && !Down) {
-         if (speed - dec > 0)
-            speed -= dec;
-         else if (speed + dec < 0)
-            speed += dec;
-         else
-            speed = 0;
-      }
+      if (Down)
+      	car[0].brake();
+\
+      if (!Up && !Down)
+      	car[0].coast();
 
       // steers the user car if the inputs are detected
-      if (Right && speed != 0)
-         angle += turnSpeed * speed / maxSpeed;
-      if (Left && speed != 0)
-         angle -= turnSpeed * speed / maxSpeed;
-
-      // sets the angle and speed of the user car
-      car[0].speed = speed;
-      car[0].angle = angle;
+      if (Right)
+         car[0].turnR();
+      if (Left)
+         car[0].turnL();
 
       // allows the cars to move
       for (int i = 0; i < N; i++)
