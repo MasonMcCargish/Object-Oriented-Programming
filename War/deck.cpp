@@ -3,9 +3,7 @@
 #include <algorithm>
 
 // Used for RNG
-#include <stdio.h> 
-#include <stdlib.h> 
-#include <time.h>
+#include <random>
 
 void Deck::fill()
 {
@@ -29,8 +27,9 @@ Card Deck::getCard(size_t pos)
 
 void Deck::shuffle()
 {
-	srand(time(NULL));
-	std::random_shuffle(deck.begin(), deck.end());
+	std::random_device rd;
+	std::minstd_rand gen(rd());
+	std::shuffle(deck.begin(), deck.end(), gen);
 }
 
 Card Deck::draw()
