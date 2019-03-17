@@ -1,19 +1,29 @@
 #include "card.hpp"
 #include <cassert>
 
-Rank Card::getRank() const
+bool Card::isJoker() const
 {
-	assert(!isJoker());
+	return false;
+}
+Color Card::getColor() const
+{
+	assert(isJoker());
+	return RED;
+}
+
+Rank StandardCard::getRank() const
+{
+	//assert(!isJoker());
 	return static_cast<Rank>(data & 0b1111);
 }
 
-Suit Card::getSuit() const
+Suit StandardCard::getSuit() const
 {
-	assert(!isJoker());
+	//assert(!isJoker());
 	return static_cast<Suit>(data >> 4);
 }
 
-int Card::getValue() const
+int StandardCard::getValue() const
 {
 	switch(getRank())
 	{
@@ -33,13 +43,13 @@ int Card::getValue() const
 	}
 }
 
-Color Card::getColor() const
+Color JokerCard::getColor() const
 {
-	assert(isJoker());
+	//assert(isJoker());
 	return static_cast<Color>(data & 0b1111);
 }
 
-bool Card::isJoker() const
+bool JokerCard::isJoker() const
 {
 	return((data & 0b1000000) == 0b1000000);
 }

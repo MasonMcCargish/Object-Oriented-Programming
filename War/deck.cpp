@@ -1,8 +1,6 @@
 #include "deck.hpp"
 
 #include <algorithm>
-
-// Used for RNG
 #include <random>
 
 void Deck::fill()
@@ -13,8 +11,7 @@ void Deck::fill()
 	{
 		for (size_t j = 0; j < 4; ++j)
 		{
-			// deck.push_back(Card(static_cast<Rank>(i),static_cast<Suit>(j)));
-			deck.push_back(Card(Rank(i),Suit(j)));
+			deck.push_back(StandardCard(Rank(i),Suit(j)));
 			++counter;
 		}
 	}
