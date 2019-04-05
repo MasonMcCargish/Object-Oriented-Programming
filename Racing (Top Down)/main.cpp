@@ -1,9 +1,12 @@
 #include "car.hpp"
 
 #include <cmath>
+#include <iostream>
+
 
 #include <SFML/Graphics.hpp>
 using namespace sf;
+
 
 int
 main()
@@ -25,16 +28,18 @@ main()
 
    // creates the cars
    // car[0] is the user car and the rest are AI
-   const int N = 5;
+   const int N = 1;
    Car car[N];
    for (int i = 0; i < N; i++) {
       car[i].setPos(300 + i * 50, 1700 + i * 80);
-      car[i].setSpeed(7 + i);
+      car[i].setSpeed(10);
    }
 
    int offsetX = 0, offsetY = 0;
 
    bool Up = 0, Right = 0, Down = 0, Left = 0;
+
+   int count = 0;
 
    //MAIN GAME LOOP
    while (app.isOpen()) {
@@ -56,7 +61,7 @@ main()
 
       if (Down)
       	car[0].brake();
-\
+
       if (!Up && !Down)
       	car[0].coast();
 
@@ -70,8 +75,8 @@ main()
       for (int i = 0; i < N; i++)
          car[i].move();
       // makes the AI find their next point to drive to
-      for (int i = 1; i < N; i++)
-         car[i].findTarget();
+      // for (int i = 1; i < N; i++)
+      //    car[i].findTarget();
 
       // collision
       for (int i = 0; i < N; i++)
@@ -106,6 +111,8 @@ main()
       Color colors[10] = {
          Color::Red, Color::Green, Color::Magenta, Color::Blue, Color::White
       };
+
+      std::cout << car[0].x << '\n';
 
       // draws the Cars
       for (int i = 0; i < N; i++) {
