@@ -6,8 +6,20 @@
 
 void Car::move()
 {
-	angle += angleInc;
-	direction += (angle - direction) / 50;
+
+	if(speed > .1) {
+		angle += angleInc;
+		direction += (drift) / 50;
+	}
+	else {
+		drift = 0;
+		angleInc = 0;
+		direction = angle;
+	}
+	drift = angle - direction;
+
+	if(speed > 0)
+		speed -= abs(drift) * .2;
 
 	x += std::sin(direction) * speed;
 	y -= std::cos(direction) * speed;
