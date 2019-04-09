@@ -4,11 +4,10 @@
 #include <algorithm>
 #include <random>
 
-void Car::move()
-{
+void Car::move() {
 
 	if(speed > .1) {
-		angle += angleInc;
+		angle += (angleInc);
 		direction += (drift) / 50;
 	}
 	else {
@@ -18,6 +17,9 @@ void Car::move()
 	}
 	drift = angle - direction;
 
+	s.add(static_cast<int>(abs(drift * 10 * speed)));
+	s.print();
+
 	if(speed > 0)
 		speed -= abs(drift) * .2;
 
@@ -25,21 +27,9 @@ void Car::move()
 	y -= std::cos(direction) * speed;
 }
 
-// void Car::findTarget()
-// {
-// 	 float tx = points[n][0];
-// 	 float ty = points[n][1];
-// 	 float beta = angle - std::atan2(tx - x, -ty + y);
-// 	 if (std::sin(beta) < 0)
-// 	   angle += 0.005 * speed;
-// 	 else
-// 	   angle -= 0.005 * speed;
-// 	 if ((x - tx) * (x - tx) + (y - ty) * (y - ty) < 25 * 25)
-// 	   n = (n + 1) % num;
-// }
+void Car::accellerate() {
+	driftChange(.001);
 
-void Car::accellerate()
-{
 	if(speed < maxSpeed) {
 		if (speed < 0)
          speed += dec;
@@ -48,8 +38,7 @@ void Car::accellerate()
 	}
 }
 
-void Car::brake()
-{
+void Car::brake() {
 	if(speed > -maxSpeed) {
 		if (speed > 0)
          speed -= dec;
@@ -58,8 +47,9 @@ void Car::brake()
 	}
 }
 
-void Car::coast()
-{
+void Car::coast() {
+	driftChange(0);
+
 	if (speed - dec > 0)
       speed -= dec;
    else if (speed + dec < 0)
@@ -68,17 +58,29 @@ void Car::coast()
       speed = 0;
 }
 
-void Car::turnL()
-{
+void Car::turnL() {
 	if (speed != 0 && angleInc > -maxAngleInc) {
    	angleInc -= turnSpeed * speed / maxSpeed;
    }
-
 }
 
-void Car::turnR()
-{
+void Car::turnR() {
 	if (speed != 0 && angleInc < maxAngleInc) {
       angleInc += turnSpeed * speed / maxSpeed;
 	}
+}
+
+void Car::driftChange(float c) {
+	if(angle <= direction + 1 && angle > direction && speed > 3)
+		angleInc -= (.002 + c);
+	else if(angle >= direction - 1 && angle < direction && speed > 3)
+		angleInc += (.002 - c);
+}
+
+Sprite Car::mvSprite(int offsX, int offsY) {
+	sCar.setPosition(x - offsX, y - offsY);
+   sCar.setRotation(angle * 180 / 3.141593);
+   sCar.setColor(Color::Red);
+
+   return sCar;
 }

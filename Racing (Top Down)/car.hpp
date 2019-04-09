@@ -1,12 +1,16 @@
 #pragma once
 
 #include <vector>
+#include "score.hpp"
+
+#include <SFML/Graphics.hpp>
+using namespace sf;
 
 const float maxSpeed = 10.0,
 				acc = 0.2, 
-				dec = 0.3,
+				dec = 0.1,
 				turnSpeed = 0.008,
-				maxAngleInc = 0.1;
+				maxAngleInc = 0.05;
 
 struct Car
 {
@@ -17,13 +21,22 @@ struct Car
 	  	direction,
 	  	drift;
 	int n;
+	Score s;
+
+	Texture t;
+	Sprite sCar;
 
 	Car()	{
-		speed = 2;
+		speed = 0;
 		angleInc = 0;
 		n = 0;
 		direction = 0;
 		angle = 0;
+
+		t.loadFromFile("images/car.png");
+   	t.setSmooth(true);
+   	sCar.setTexture(t);
+   	sCar.setOrigin(22, 22);
 	}
 
 	void setSpeed(float spd) {
@@ -34,11 +47,12 @@ struct Car
 		y = posy;
 	}
 
+	void driftChange(float);
 	void move();
-	// void findTarget();
 	void accellerate();
 	void brake();
 	void coast();
 	void turnL();
 	void turnR();
+	Sprite mvSprite(int, int);
 };
