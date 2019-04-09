@@ -1,9 +1,10 @@
+set(CMAKE_CXX_FLAGS "-std=c++11")
 
 cmake_minimum_required(VERSION 3.8)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(SFML COMPONENTS graphics window system)
 include_directories(${SFML_INCLUDE_DIR})
 
-add_executable(race main.cpp)
+add_executable(race main.cpp car.cpp score.cpp keypress.cpp bg.cpp)
 target_link_libraries(race ${SFML_LIBRARIES})
