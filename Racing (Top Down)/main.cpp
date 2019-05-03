@@ -1,6 +1,8 @@
 #include "car.hpp"
 #include "keypress.hpp"
 #include "bg.hpp"
+#include "score.hpp"
+#include "wall.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -9,6 +11,24 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
+
+struct EventS
+{
+	Window* app;
+
+
+	EventS(Window& w): app(&w)
+	{ }
+
+	void checkEvent() {
+		Event e;
+		while (app->pollEvent(e)) {
+		   switch(e.type) {
+		      case Event::Closed: app->close();
+		   }
+		}
+	}
+};
 
 int
 main()
@@ -29,14 +49,20 @@ main()
    Keypress key;
    BG track;
 
+   Font f;
+   Text t;
+   f.loadFromFile("arial.ttf");
+   t.setString("Score: ");
+   t.setFont(f);
+   t.setCharacterSize(50);
+
+   Wall w {0,0,40,1000};
+
+   EventS e{app};
    //MAIN GAME LOOP
    while (app.isOpen()) {
-      Event e;
-      while (app.pollEvent(e)) {
-         if (e.type == Event::Closed)
-            app.close();
-      }
-
+   	e.checkEvent();
+   	
       // detects keyboard inputs
       key.detectKey();
 
@@ -53,7 +79,7 @@ main()
          car.turnL();
 
       // allows the cars to move
-      car.move();
+      s = car.move();
 
       // collision
       // for (int i = 0; i < N; i++)
@@ -71,6 +97,8 @@ main()
       //    }
       // }
 
+      std::cout << w.collide(car) << '\n';
+
       // makes anything not covered by the background image white
       app.clear(Color::White);
 
@@ -81,6 +109,9 @@ main()
       // draws the Car
       sCar = car.mvSprite(track.getX(), track.getY());
       app.draw(sCar);
+
+      t = s.print();
+      app.draw(t);
 
       app.display();
    }
